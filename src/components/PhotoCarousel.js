@@ -7,25 +7,56 @@ const BASE_URL = 'https://photo-technical-test.onrender.com/api/photos'; // Ajus
 const PhotoCarousel = () => {
     const [photos, setPhotos] = useState([]);
     const [filter, setFilter] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const [offset, setOffset] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+
+    const [titleFilter, setTitleFilter] = useState('');
+    const [albumTitleFilter, setAlbumTitleFilter] = useState('');
+    const [emailFilter, setEmailFilter] = useState('');
 
     useEffect(() => {
         const fetchPhotos = async () => {
             try {
-                const response = await fetch(BASE_URL);
+                console.log("limit", limit);
+                console.log("currentPage", currentPage);
+                console.log("offset", offset);
+
+                const params = new URLSearchParams();
+                if (titleFilter) params.append('title', titleFilter);
+                if (albumTitleFilter) params.append('album.title', albumTitleFilter);
+                if (emailFilter) params.append('album.user.email', emailFilter);
+                if (offset) params.append('offset', offset.toString());
+                if (limit) params.append('limit', limit.toString());
+
+                console.log("params", params.toString());
+                const apiUrl = `${BASE_URL}?${params.toString()}`;
+
+                // const url = `${BASE_URL}?offset=${offset}&limit=${limit}`;
+                const url = apiUrl;
+                const response = await fetch(url);
                 const data = await response.json();
                 console.log("data", data)
-                setPhotos(data); // Asegúrate de ajustar esto según la estructura de tu API
+                setPhotos(data);
+                setTotalPages(10);
             } catch (error) {
                 console.error('Error fetching photos:', error);
             }
         };
 
         fetchPhotos();
-    }, []);
+    }, [limit, offset, titleFilter, albumTitleFilter, emailFilter]);
 
     const filteredPhotos = photos.filter(photo =>
         photo.title.toLowerCase().includes(filter.toLowerCase())
     );
+
+    // const filteredPhotos = photos.filter((photo) => {
+    //     return photo.title.toLowerCase().includes(titleFilter.toLowerCase()) &&
+    //         photo.albumTitle.toLowerCase().includes(albumTitleFilter.toLowerCase()) &&
+    //         photo.email.toLowerCase().includes(emailFilter.toLowerCase());
+    // });
 
     // Divide las fotos filtradas en filas de hasta 5 elementos
     const photoRows = [];
@@ -35,31 +66,138 @@ const PhotoCarousel = () => {
 
     return (
         <div className="container mt-5">
-            <div className="row mb-3">
-                <div className="col">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Buscar por título..."
-                        onChange={(e) => setFilter(e.target.value)}
-                    />
+            <div className="row">
+                <div className="col-md-3">
+                    <div className="sidebar-filters">
+                        <div className="mb-3">
+                            <label htmlFor="titleOffset" className="form-label filter-label">Número de página</label>
+                            <input
+                                type="number"
+                                className="form-control mb-2"
+                                value={offset}
+                                onChange={(e) => setOffset(Number(e.target.value))}
+                                placeholder="Offset de elementos"
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="titleLimite" className="form-label filter-label">Cantidad de elementos</label>
+                            <input
+                                type="number"
+                                className="form-control mb-2"
+                                value={limit}
+                                onChange={(e) => setLimit(Number(e.target.value))}
+                                placeholder={`Mostrar ${limit} fotos por página`}
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="titleFilter" className="form-label filter-label">Ingrese título:</label>
+                        <input
+                            type="text"
+                            className="form-control mb-2"
+                            value={titleFilter}
+                            onChange={(e) => setTitleFilter(e.target.value)}
+                            placeholder="Filtrar por título"
+                        />
+                        </div>
+                        <div className="mb-3">
+                        <label htmlFor="albumTitleFilter" className="form-label filter-label">Ingrese título de álbum:</label>
+                        <input
+                            type="text"
+                            className="form-control mb-2"
+                            value={albumTitleFilter}
+                            onChange={(e) => setAlbumTitleFilter(e.target.value)}
+                            placeholder="Filtrar por título de álbum"
+                        />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="emailFilter" className="form-label filter-label">ingrese email:</label>
+                            <input
+                                type="email"
+                                className="form-control mb-2"
+                                value={emailFilter}
+                                onChange={(e) => setEmailFilter(e.target.value)}
+                                placeholder="Filtrar por email"
+                            />
+                        </div>
+                        {/*<button*/}
+                        {/*    className="btn btn-primary mb-2"*/}
+                        {/*    onClick={() => setCurrentPage(currentPage - 1)}*/}
+                        {/*    disabled={currentPage === 1}*/}
+                        {/*>*/}
+                        {/*    Anterior*/}
+                        {/*</button>*/}
+                        {/*<button*/}
+                        {/*    className="btn btn-primary mb-2"*/}
+                        {/*    onClick={() => setCurrentPage(currentPage + 1)}*/}
+                        {/*    disabled={currentPage === totalPages}*/}
+                        {/*>*/}
+                        {/*    Siguiente*/}
+                        {/*</button>*/}
+                        {/*<div>Página {currentPage} de {totalPages}</div>*/}
+                    </div>
+                </div>
+                <div className="col-md-9">
+                <div className={"photo-grid"}>
+                        {/*{photoRows.map((row, rowIndex) => (*/}
+                        {/*    <div key={rowIndex} className="photo-row">*/}
+                        {/*        {row.map((photo, photoIndex) => (*/}
+                        {/*            <div key={photoIndex} className="photo-card">*/}
+                        {/*                <img src={photo.url} alt={photo.title} className="photo-image" />*/}
+                        {/*                <div className="photo-title">{photo.title}</div>*/}
+                        {/*            </div>*/}
+                        {/*        ))}*/}
+                        {/*    </div>*/}
+                        {/*))}*/}
+                             {photoRows.map((row, rowIndex) => (
+                                <div key={rowIndex} className="row">
+                                    {row.map((photo, photoIndex) => (
+                                        <div key={photoIndex} className="photo-item card-type">
+                                            <div className="card card-title">
+                                                <img src={photo.url} alt={photo.title} className="card-img-top photo-image" />
+                                                <div className="card-body ">
+                                                    <h5 className="card-title">{photo.title}</h5>
+                                                    <p className="album-title card-text">Álbum: {photo.album?.title}</p>
+                                                    <p className="email card-text">email: {photo.user?.email}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ))}
+                    </div>
                 </div>
             </div>
-            {photoRows.map((row, rowIndex) => (
-                <div key={rowIndex} className="row">
-                    {row.map((photo, photoIndex) => (
-                        <div key={photoIndex} className="col">
-                            <div className="card card-type">
-                                <img src={photo.url} alt={photo.title} className="card-img-top photo-image" />
-                                <div className="card-body">
-                                    <p className="card-text">{photo.title}</p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            ))}
         </div>
+
+
+
+
+            // <div className="container mt-5">
+        //     <div className="row mb-3">
+        //         <div className="col">
+        //             <input
+        //                 type="text"
+        //                 className="form-control"
+        //                 placeholder="Buscar por título..."
+        //                 onChange={(e) => setFilter(e.target.value)}
+        //             />
+        //         </div>
+        //     </div>
+        //     {photoRows.map((row, rowIndex) => (
+        //         <div key={rowIndex} className="row">
+        //             {row.map((photo, photoIndex) => (
+        //                 <div key={photoIndex} className="col">
+        //                     <div className="card card-type">
+        //                         <img src={photo.url} alt={photo.title} className="card-img-top photo-image" />
+        //                         <div className="card-body">
+        //                             <p className="card-text">{photo.title}</p>
+        //                         </div>
+        //                     </div>
+        //                 </div>
+        //             ))}
+        //         </div>
+        //     ))}
+        // </div>
     );
 };
 
