@@ -1,0 +1,19 @@
+.photo-image {
+    width: 100%;
+    height: 166px;
+    object-fit: cover;
+}
+
+.card-type {
+    height: 300px; /* Establece la altura deseada para tus tarjetas */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
