@@ -7,9 +7,9 @@ const BASE_URL = 'https://photo-technical-test.onrender.com/api/photos'; // Ajus
 const PhotoCarousel = () => {
     const [photos, setPhotos] = useState([]);
     const [filter, setFilter] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
+    const [offset, setCurrentPage] = useState(1);
     const [limit, setLimit] = useState(10);
-    const [offset, setOffset] = useState(0);
+    const [offset2, setOffset] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
 
     const [titleFilter, setTitleFilter] = useState('');
@@ -20,18 +20,21 @@ const PhotoCarousel = () => {
         const fetchPhotos = async () => {
             try {
                 console.log("limit", limit);
-                console.log("currentPage", currentPage);
-                console.log("offset", offset);
+                console.log("currentPage", offset);
+                console.log("offset2", offset2);
+                const newOffset = offset - 1;
 
                 const params = new URLSearchParams();
-                if (titleFilter) params.append('title', titleFilter);
+                console.log(encodeURIComponent(titleFilter));
+                if (titleFilter) params.append('title',(titleFilter));
                 if (albumTitleFilter) params.append('album.title', albumTitleFilter);
                 if (emailFilter) params.append('album.user.email', emailFilter);
-                if (offset) params.append('offset', offset.toString());
+                if (offset) params.append('offset', newOffset.toString());
                 if (limit) params.append('limit', limit.toString());
 
-                console.log("params", params.toString());
-                const apiUrl = `${BASE_URL}?${params.toString()}`;
+                const paramString = params.toString().replace(/\+/g, '%20');
+                console.log("paramString", paramString);
+                const apiUrl = `${BASE_URL}?${paramString.toString()}`;
 
                 // const url = `${BASE_URL}?offset=${offset}&limit=${limit}`;
                 const url = apiUrl;
@@ -70,12 +73,42 @@ const PhotoCarousel = () => {
                 <div className="col-md-3">
                     <div className="sidebar-filters">
                         <div className="mb-3">
+                            <label htmlFor="titleFilter" className="form-label filter-label">Ingrese título:</label>
+                            <input
+                                type="text"
+                                className="form-control mb-2"
+                                value={titleFilter}
+                                onChange={(e) => setTitleFilter(e.target.value)}
+                                placeholder="Filtrar por título"
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="albumTitleFilter" className="form-label filter-label">Ingrese título de álbum:</label>
+                            <input
+                                type="text"
+                                className="form-control mb-2"
+                                value={albumTitleFilter}
+                                onChange={(e) => setAlbumTitleFilter(e.target.value)}
+                                placeholder="Filtrar por título de álbum"
+                            />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="emailFilter" className="form-label filter-label">ingrese email:</label>
+                            <input
+                                type="email"
+                                className="form-control mb-2"
+                                value={emailFilter}
+                                onChange={(e) => setEmailFilter(e.target.value)}
+                                placeholder="Filtrar por email"
+                            />
+                        </div>
+                        <div className="mb-3">
                             <label htmlFor="titleOffset" className="form-label filter-label">Número de página</label>
                             <input
                                 type="number"
                                 className="form-control mb-2"
                                 value={offset}
-                                onChange={(e) => setOffset(Number(e.target.value))}
+                                onChange={(e) => setCurrentPage(Number(e.target.value))}
                                 placeholder="Offset de elementos"
                             />
                         </div>
@@ -89,55 +122,25 @@ const PhotoCarousel = () => {
                                 placeholder={`Mostrar ${limit} fotos por página`}
                             />
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="titleFilter" className="form-label filter-label">Ingrese título:</label>
-                        <input
-                            type="text"
-                            className="form-control mb-2"
-                            value={titleFilter}
-                            onChange={(e) => setTitleFilter(e.target.value)}
-                            placeholder="Filtrar por título"
-                        />
-                        </div>
-                        <div className="mb-3">
-                        <label htmlFor="albumTitleFilter" className="form-label filter-label">Ingrese título de álbum:</label>
-                        <input
-                            type="text"
-                            className="form-control mb-2"
-                            value={albumTitleFilter}
-                            onChange={(e) => setAlbumTitleFilter(e.target.value)}
-                            placeholder="Filtrar por título de álbum"
-                        />
-                        </div>
-                        <div className="mb-3">
-                            <label htmlFor="emailFilter" className="form-label filter-label">ingrese email:</label>
-                            <input
-                                type="email"
-                                className="form-control mb-2"
-                                value={emailFilter}
-                                onChange={(e) => setEmailFilter(e.target.value)}
-                                placeholder="Filtrar por email"
-                            />
-                        </div>
-                        {/*<button*/}
-                        {/*    className="btn btn-primary mb-2"*/}
-                        {/*    onClick={() => setCurrentPage(currentPage - 1)}*/}
-                        {/*    disabled={currentPage === 1}*/}
-                        {/*>*/}
-                        {/*    Anterior*/}
-                        {/*</button>*/}
-                        {/*<button*/}
-                        {/*    className="btn btn-primary mb-2"*/}
-                        {/*    onClick={() => setCurrentPage(currentPage + 1)}*/}
-                        {/*    disabled={currentPage === totalPages}*/}
-                        {/*>*/}
-                        {/*    Siguiente*/}
-                        {/*</button>*/}
-                        {/*<div>Página {currentPage} de {totalPages}</div>*/}
+                        <button
+                            className="btn btn-primary mb-2"
+                            onClick={() => setCurrentPage(offset - 1)}
+                            disabled={offset === 1}
+                        >
+                            Anterior
+                        </button>
+                        <button
+                            className="btn btn-primary mb-2"
+                            onClick={() => setCurrentPage(offset + 1)}
+                            disabled={offset === totalPages}
+                        >
+                            Siguiente
+                        </button>
+                        <div>Página {offset} de {totalPages}</div>
                     </div>
                 </div>
                 <div className="col-md-9">
-                <div className={"photo-grid"}>
+                    <div className={"photo-grid"}>
                         {/*{photoRows.map((row, rowIndex) => (*/}
                         {/*    <div key={rowIndex} className="photo-row">*/}
                         {/*        {row.map((photo, photoIndex) => (*/}
@@ -148,11 +151,11 @@ const PhotoCarousel = () => {
                         {/*        ))}*/}
                         {/*    </div>*/}
                         {/*))}*/}
-                             {photoRows.map((row, rowIndex) => (
-                                <div key={rowIndex} className="row">
-                                    {row.map((photo, photoIndex) => (
-                                        <div key={photoIndex} className="photo-item card-type">
-                                            <div className="card card-title">
+                        {photoRows.map((row, rowIndex) => (
+                            <div key={rowIndex} className="row">
+                                {row.map((photo, photoIndex) => (
+                                    <div key={photoIndex} className="photo-card photo-item card-type">
+                                        <div className="card card-title">
                                                 <img src={photo.url} alt={photo.title} className="card-img-top photo-image" />
                                                 <div className="card-body ">
                                                     <h5 className="card-title">{photo.title}</h5>

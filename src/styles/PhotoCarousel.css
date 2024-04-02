@@ -28,7 +28,6 @@
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
-
 }
 /*.photo-grid {*/
 /*    display: flex;*/
@@ -45,6 +44,22 @@
     flex-direction: column;
     gap: 20px;
 }
+
+.photo-card h5 {
+    font-size: 13px;
+    margin-top: 0;
+    margin-bottom: 10;
+    letter-spacing: 0.5px;
+    text-align: left;
+}
+
+.photo-card p {
+    font-size: 11px;
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: left;
+}
+
 /* Pantallas medianas: hasta 4 elementos por fila */
 @media (max-width: 992px) {
     .photo-item {
