@@ -8,8 +8,7 @@ const PhotoCarousel = () => {
     const [photos, setPhotos] = useState([]);
     const [filter, setFilter] = useState('');
     const [offset, setCurrentPage] = useState(1);
-    const [limit, setLimit] = useState(10);
-    const [offset2, setOffset] = useState(0);
+    const [limit, setLimit] = useState(25);
     const [totalPages, setTotalPages] = useState(0);
 
     const [titleFilter, setTitleFilter] = useState('');
@@ -19,13 +18,10 @@ const PhotoCarousel = () => {
     useEffect(() => {
         const fetchPhotos = async () => {
             try {
-                console.log("limit", limit);
-                console.log("currentPage", offset);
-                console.log("offset2", offset2);
-                const newOffset = offset - 1;
 
+                const newOffset = offset - 1;
                 const params = new URLSearchParams();
-                console.log(encodeURIComponent(titleFilter));
+
                 if (titleFilter) params.append('title',(titleFilter));
                 if (albumTitleFilter) params.append('album.title', albumTitleFilter);
                 if (emailFilter) params.append('album.user.email', emailFilter);
@@ -33,14 +29,11 @@ const PhotoCarousel = () => {
                 if (limit) params.append('limit', limit.toString());
 
                 const paramString = params.toString().replace(/\+/g, '%20');
-                console.log("paramString", paramString);
                 const apiUrl = `${BASE_URL}?${paramString.toString()}`;
-
-                // const url = `${BASE_URL}?offset=${offset}&limit=${limit}`;
                 const url = apiUrl;
                 const response = await fetch(url);
                 const data = await response.json();
-                console.log("data", data)
+
                 setPhotos(data.photos);
                 const total = Math.ceil(data.total / limit);
                 setTotalPages(total);
