@@ -60,6 +60,15 @@
     text-align: left;
 }
 
+.button-pagination {
+    min-width: 100px;
+    padding: 0.5rem 1rem;
+}
+
+.button-previous {
+    margin-right: 10px;
+}
+
 /* Pantallas medianas: hasta 4 elementos por fila */
 @media (max-width: 992px) {
     .photo-item {

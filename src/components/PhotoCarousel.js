@@ -118,7 +118,7 @@ const PhotoCarousel = () => {
                             />
                         </div>
                         <div className="mb-3">
-                            <label htmlFor="emailFilter" className="form-label filter-label">ingrese email:</label>
+                            <label htmlFor="emailFilter" className="form-label filter-label">Ingrese email:</label>
                             <input
                                 type="email"
                                 className="form-control mb-2"
@@ -160,20 +160,22 @@ const PhotoCarousel = () => {
                                 onKeyDown={handleKeyDown}
                             />
                         </div>
+                        <div className="pagination-buttons">
                         <button
-                            className="btn btn-primary mb-2"
+                            className="btn btn-primary mb-2 button-previous button-pagination"
                             onClick={() => setCurrentPage(offset - 1)}
                             disabled={offset === 1}
                         >
                             Anterior
                         </button>
                         <button
-                            className="btn btn-primary mb-2"
+                            className="btn btn-primary mb-2 button-pagination"
                             onClick={() => setCurrentPage(offset + 1)}
                             disabled={offset === totalPages}
                         >
                             Siguiente
                         </button>
+                        </div>
                         <div>Página {offset} de {totalPages}</div>
                     </div>
                 </div>
