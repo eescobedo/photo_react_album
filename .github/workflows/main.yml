@@ -1,0 +1,31 @@
+name: Deploy API to Heroku
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+          
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build # Omitir si no es necesario
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{ HRKU-3d9cb9b6-379d-4b22-9b1a-670c17a49e3d }}
+          heroku_app_name: "tu-app-backend-heroku"
+          heroku_email: "eriec.42@gmail.com"
