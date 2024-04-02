@@ -7,10 +7,6 @@ import PhotoCarousel from "./components/PhotoCarousel";
 function App() {
   return (
     <div className="App">
-      {/*<header className="App-header">*/}
-
-	  {/*  <Photos />*/}
-      {/*</header>*/}
         <PhotoCarousel />
     </div>
   );

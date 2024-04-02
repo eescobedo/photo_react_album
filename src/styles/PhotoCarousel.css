@@ -21,7 +21,7 @@
 
 .filter-label {
     text-align: left;
-    display: block; /* Asegura que la etiqueta ocupe su propia línea */
+    display: block;
 }
 
 .card-title, .album-title, .email {
@@ -29,16 +29,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-/*.photo-grid {*/
-/*    display: flex;*/
-/*    flex-wrap: wrap;*/
-/*    gap: 20px;*/
-/*    justify-content: start;*/
-/*}*/
 
 .photo-item {
-    flex: 1 0 calc(20% - 20px); /* Calcula el ancho para 5 elementos por fila, considerando el gap */
-    max-width: 300px; /* Mantiene el ancho máximo como estaba */
+    flex: 1 0 calc(20% - 20px);
+    max-width: 300px;
     max-height: 350px;
     display: flex;
     flex-direction: column;
@@ -72,20 +66,20 @@
 /* Pantallas medianas: hasta 4 elementos por fila */
 @media (max-width: 992px) {
     .photo-item {
-        flex: 1 0 calc(25% - 20px); /* Ajusta para 4 elementos por fila */
+        flex: 1 0 calc(25% - 20px);
     }
 }
 
 /* Pantallas pequeñas: hasta 3 elementos por fila */
 @media (max-width: 768px) {
     .photo-item {
-        flex: 1 0 calc(33.333% - 20px); /* Ajusta para 3 elementos por fila */
+        flex: 1 0 calc(33.333% - 20px);
     }
 }
 
 /* Pantallas extra pequeñas: hasta 2 elementos por fila */
 @media (max-width: 576px) {
     .photo-item {
-        flex: 1 0 calc(50% - 20px); /* Ajusta para 2 elementos por fila */
+        flex: 1 0 calc(50% - 20px);
     }
 }

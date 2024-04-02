@@ -1,70 +1,52 @@
-# Getting Started with Create React App
+# Proyecto - Fotos de albums
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+PhotoCarousel es una aplicación React que permite visualizar un carrusel de fotos con funcionalidad de paginación y filtros avanzados.
 
-## Available Scripts
+## Requisitos Previos
 
-In the project directory, you can run:
+Antes de instalar y ejecutar este proyecto, asegúrate de tener instalado [Node.js](https://nodejs.org/) que incluye `npm` (Node Package Manager).
 
-### `npm start`
+## Instalación
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Para instalar el proyecto y todas las dependencias, sigue estos pasos:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Clona el repositorio en tu máquina local utilizando:
 
-### `npm test`
+```bash
+git clone git@github.com:eescobedo/photo_react_album.git PhotoCarousel
+```
+```bash
+cd PhotoCarousel
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Instala las dependencias del proyecto:
 
-### `npm run build`
+```bash
+npm install
+```
+## Configuración
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Para configurar el proyecto, realiza los siguientes pasos:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Asegúrate de tener acceso a la API que será consumida por la aplicación. Si es necesario, configura las variables de entorno para la URL de la API en el archivo .env en la raíz del proyecto:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+REACT_APP_API_URL= Ingrese la URL de la API aquí
+```
+Ajusta cualquier otra configuración específica del proyecto según sea necesario.
 
-### `npm run eject`
+Uso para ejecutar la aplicación en modo de desarrollo, utiliza el siguiente comando:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Características
+    Las características de la aplicación incluyen:
+    - Visualización de un carrusel de fotos con funcionalidad de paginación.
+    - Filtros avanzados para buscar fotos por título, autor y fecha de creación.
+    - Visualización de detalles de la foto al hacer clic en ella.
+    - Diseño responsivo para adaptarse a diferentes tamaños de pantalla.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Licencia
+   Este proyecto está licenciado bajo MIT License.
