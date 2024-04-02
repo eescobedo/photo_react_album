@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.REACT_APP_API_URL;
+const BASE_URL = "https://photo-technical-test.onrender.com/api/photos";
 
 export const fetchPhotos = async (params = {}) => {
     try {

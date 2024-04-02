@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/PhotoCarousel.css'
 
-const BASE_URL = process.env.REACT_APP_API_URL;
+const BASE_URL = "https://photo-technical-test.onrender.com/api/photos";
 
 const PhotoCarousel = () => {
     const [photos, setPhotos] = useState([]);
@@ -29,7 +29,10 @@ const PhotoCarousel = () => {
                 if (limit) params.append('limit', limit.toString());
 
                 const paramString = params.toString().replace(/\+/g, '%20');
+                console.log('paramString', paramString);
+
                 const apiUrl = `${BASE_URL}?${paramString.toString()}`;
+                console.log('apiUrl', apiUrl)
                 const url = apiUrl;
                 const response = await fetch(url);
                 const data = await response.json();
