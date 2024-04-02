@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/PhotoCarousel.css'
 
 const BASE_URL = 'https://photo-technical-test.onrender.com/api/photos'; // Ajusta esto a la URL de tu API
+// const BASE_URL = 'http://localhost:3000/api/photos'; // Ajusta esto a la URL de tu API
 
 const PhotoCarousel = () => {
     const [photos, setPhotos] = useState([]);
@@ -41,8 +42,9 @@ const PhotoCarousel = () => {
                 const response = await fetch(url);
                 const data = await response.json();
                 console.log("data", data)
-                setPhotos(data);
-                setTotalPages(10);
+                setPhotos(data.photos);
+                const total = Math.ceil(data.total / limit);
+                setTotalPages(total);
             } catch (error) {
                 console.error('Error fetching photos:', error);
             }
@@ -51,9 +53,32 @@ const PhotoCarousel = () => {
         fetchPhotos();
     }, [limit, offset, titleFilter, albumTitleFilter, emailFilter]);
 
+    const handleKeyDown = (e) => {
+        if (e.keyCode === 8 && e.target.value <= 1) {
+            // Backspace key pressed
+            e.preventDefault();
+            setCurrentPage(1);
+        }
+    };
+
     const filteredPhotos = photos.filter(photo =>
         photo.title.toLowerCase().includes(filter.toLowerCase())
     );
+
+    const handleEmailFilterChange = (e) => {
+        setEmailFilter(e.target.value);
+        setCurrentPage(1);
+    }
+
+    const handleTitleFilterChange = (e) => {
+        setTitleFilter(e.target.value);
+        setCurrentPage(1);
+    }
+
+    const handleAlbumTitleFilterChange = (e) => {
+        setAlbumTitleFilter(e.target.value);
+        setCurrentPage(1);
+    }
 
     // const filteredPhotos = photos.filter((photo) => {
     //     return photo.title.toLowerCase().includes(titleFilter.toLowerCase()) &&
@@ -78,7 +103,7 @@ const PhotoCarousel = () => {
                                 type="text"
                                 className="form-control mb-2"
                                 value={titleFilter}
-                                onChange={(e) => setTitleFilter(e.target.value)}
+                                onChange={handleTitleFilterChange}
                                 placeholder="Filtrar por título"
                             />
                         </div>
@@ -88,7 +113,7 @@ const PhotoCarousel = () => {
                                 type="text"
                                 className="form-control mb-2"
                                 value={albumTitleFilter}
-                                onChange={(e) => setAlbumTitleFilter(e.target.value)}
+                                onChange={handleAlbumTitleFilterChange}
                                 placeholder="Filtrar por título de álbum"
                             />
                         </div>
@@ -98,8 +123,9 @@ const PhotoCarousel = () => {
                                 type="email"
                                 className="form-control mb-2"
                                 value={emailFilter}
-                                onChange={(e) => setEmailFilter(e.target.value)}
+                                onChange={handleEmailFilterChange}
                                 placeholder="Filtrar por email"
+
                             />
                         </div>
                         <div className="mb-3">
@@ -108,8 +134,15 @@ const PhotoCarousel = () => {
                                 type="number"
                                 className="form-control mb-2"
                                 value={offset}
-                                onChange={(e) => setCurrentPage(Number(e.target.value))}
+                                min={1}
+                                onChange={(e) =>
+                                    {
+                                        const newValue = Number(e.target.value);
+                                        setCurrentPage(newValue >= 1 ? newValue : 1);
+                                    }
+                                }
                                 placeholder="Offset de elementos"
+                                onKeyDown={handleKeyDown}
                             />
                         </div>
                         <div className="mb-3">
@@ -118,8 +151,13 @@ const PhotoCarousel = () => {
                                 type="number"
                                 className="form-control mb-2"
                                 value={limit}
-                                onChange={(e) => setLimit(Number(e.target.value))}
+                                onChange={(e) => {
+                                        const newValue = Number(e.target.value);
+                                        setLimit(newValue >= 1 ? newValue : 1);
+                                    }
+                                }
                                 placeholder={`Mostrar ${limit} fotos por página`}
+                                onKeyDown={handleKeyDown}
                             />
                         </div>
                         <button
