@@ -26,6 +26,6 @@ jobs:
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
-          heroku_api_key: ${{ HRKU-3d9cb9b6-379d-4b22-9b1a-670c17a49e3d }}
+          heroku_api_key: "HRKU-3d9cb9b6-379d-4b22-9b1a-670c17a49e3d"
           heroku_app_name: "tu-app-backend-heroku"
           heroku_email: "eriec.42@gmail.com"
